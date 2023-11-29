@@ -2,14 +2,17 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-#Load the datasets
-df_definition = pd.read_csv('Pisa mean performance scores 2013 - 2015 Definition and Source.csv')
-df_data = pd.read_csv('Pisa mean perfromance scores 2013 - 2015 Data.csv')
-st.write(df_data)
+#Load the dataset and convert the '..' data to 'Nah'.
+data = pd.read_csv('Pisa mean perfromance scores 2013 - 2015 Data.csv', na_values=['..'])
 
-#Remove all the 'None' and Useless data from columns 'Country Name','Country Code','Series Name','Series Code','2013 [YR2013]','2014 [YR2014]',and '2015 [YR2015]'.
+#Seperate the column of 'Series Name',where begin with 'PISA: Mean performance on', following with 'subject' plus 'gender' at the end,for those did not mark gender stands for 'in general'.
+data[['Performance', 'Gender']] = data['Series Name'].str.split('.', expand=True)
 
-# Split the column into two new columns 'Series Name' and 'Gender'
-df_data[['SeriesName', 'Gender']] = df_data['Series Name'].str.split(' . ', expand=True)
+# Clean up the 'Performance' column to keep only the subjects.
+data['Performance'] = data['Performance'].str.replace('PISA: Mean performance on the ', '', regex=False).str.strip()
 
+# Handle missing gender values, and rename it 'In General'.
+data['Gender'] = data['Gender'].fillna('In General').str.strip()
+data = data.drop('Series Name', axis=1)
+st.write(data)
 
