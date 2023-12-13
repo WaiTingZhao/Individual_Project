@@ -165,7 +165,6 @@ elif selected_question == "Question 3: Subject score variability across countrie
     st.plotly_chart(fig2, use_container_width=True)
     st.write('reading score, std dev={}'.format(df3[df3['Performance'] == 'reading scale']['Year of 2015'].std()))
 
-
     fig3 = px.histogram(df3[df3['Performance'] == 'science scale'], x="Year of 2015")
     st.plotly_chart(fig3, use_container_width=True)
     st.write('science score, std dev={}'.format(df3[df3['Performance'] == 'science scale']['Year of 2015'].std()))
