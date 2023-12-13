@@ -18,7 +18,6 @@ def generate_filtered_df(original_df, subject=None, gender=None):
     if gender is None:
         if subject == 'All Subjects':
             return original_df
-
         return original_df[original_df['Performance'] == gender_mapping['subject']]
 
     if subject == 'All Subjects':
